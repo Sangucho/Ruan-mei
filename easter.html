@@ -69,6 +69,10 @@
         .right-image {
             right: 0;
         }
+        .countdown {
+            font-size: 1.5rem;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -93,6 +97,7 @@
         </video>
         <img src="assets/img/ruan.jfif" alt="Left Image" class="side-image left-image">
         <img src="assets/img/ruan.jfif" alt="Right Image" class="side-image right-image">
+        <div class="countdown" id="countdown"></div>
     </div>
 
     <script>
@@ -107,6 +112,35 @@
         // Ajustar la velocidad de reproducción a x2
         const backgroundVideo = document.getElementById('backgroundVideo');
         backgroundVideo.playbackRate = 2.0;
+
+        // Función para calcular y mostrar el contador
+        function countdown() {
+            const now = new Date().getTime(); // Fecha y hora actual en milisegundos
+            const targetDate = now + (4 * 60 * 60 * 1000) + (20 * 60 * 1000); // 4 horas y 20 minutos en milisegundos
+
+            // Actualiza el contador cada segundo
+            const timer = setInterval(function() {
+                const current = new Date().getTime(); // Hora actual en milisegundos
+                const difference = targetDate - current; // Diferencia de tiempo
+
+                // Calcula horas, minutos y segundos restantes
+                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+                // Muestra el tiempo restante en el elemento con id "countdown"
+                document.getElementById('countdown').innerHTML = `Faltan ${hours}h ${minutes}m ${seconds}s`;
+
+                // Si el tiempo ha terminado, detén el contador
+                if (difference < 0) {
+                    clearInterval(timer);
+                    document.getElementById('countdown').innerHTML = 'Tiempo agotado';
+                }
+            }, 1000); // Actualiza cada segundo (1000 ms)
+        }
+
+        // Inicia el contador al cargar la página
+        countdown();
     </script>
 </body>
 </html>
